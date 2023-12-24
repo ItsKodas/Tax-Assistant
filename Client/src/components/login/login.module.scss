@@ -1,0 +1,34 @@
+.root {}
+
+.login-form {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.login-title {
+    line-height: 1.1;
+    text-align: center;
+}
+
+.login-subtitle {
+    text-align: end;
+    position: sticky;
+}
+
+.login-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    margin-top: -100px;
+}
+
+.login-textbox {
+    text-align: start;
+    line-height: 1.5;
+    direction: ltr;
+    font-size: 1em;
+    border: 1px solid #DBDBDB;
+    padding: 5px;
+    border-radius: 5px;
+}
