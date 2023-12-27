@@ -48,4 +48,10 @@ export function post(req: Request, res: Response) {
             .then(() => res.status(200).json({ success: 'Receipt Inserted!' }))
             .catch((error: Error) => res.status(500).json({ error }))
     }
+
+    if (req.query.mode == 'redact') {
+        Data.DeleteTax(folder as string, data as string)
+            .then(() => res.status(200).json({ success: 'Receipt Redacted!' }))
+            .catch((error: Error) => res.status(500).json({ error }))
+    }
 }

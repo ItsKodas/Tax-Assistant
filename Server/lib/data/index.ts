@@ -3,6 +3,7 @@
 import Config from '@lib/config'
 
 import fs from 'fs'
+import Crypto from 'crypto'
 
 
 
@@ -112,10 +113,12 @@ export function FetchTaxes(folder: string) {
     })
 }
 
-export function InsertTax(folder: string, data: {date: Date, type: string, description: string, vendor: string, value: number, gst: number}) {
+export function InsertTax(folder: string, data: {uuid: string, date: Date, type: string, description: string, vendor: string, value: number, gst: number}) {
     return new Promise((resolve, reject) => {
 
         let Receipts = JSON.parse(fs.readFileSync(`${Config.dataPath}/${folder}/receipts.json`, 'utf-8'))
+
+        data['uuid'] = Crypto.randomUUID()
 
         Receipts.data.push(data)
 
@@ -125,5 +128,19 @@ export function InsertTax(folder: string, data: {date: Date, type: string, descr
         fs.writeFileSync(`${Config.dataPath}/${folder}/receipts.json`, JSON.stringify(Receipts, null, '\t'))
 
         resolve('Successfully inserted receipt!')
+    })
+}
+
+export function DeleteTax(folder: string, uuid: string) {
+    return new Promise((resolve, reject) => {
+
+        let Receipts = JSON.parse(fs.readFileSync(`${Config.dataPath}/${folder}/receipts.json`, 'utf-8'))
+
+        Receipts.data = Receipts.data.filter((receipt: any) => receipt.uuid != uuid)
+
+
+        fs.writeFileSync(`${Config.dataPath}/${folder}/receipts.json`, JSON.stringify(Receipts, null, '\t'))
+
+        resolve('Successfully deleted receipt!')
     })
 }

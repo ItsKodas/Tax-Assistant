@@ -24,6 +24,9 @@ export const TaxList = ({ className }: TaxListProps) => {
     const [taxValue, setTaxValue] = useState(0);
     const [taxGST, setTaxGST] = useState(0);
 
+    const [image, setImage] = useState(null);
+    const [createObjectURL, setCreateObjectURL] = useState(null);
+
 
     const handleChange = (event: any) => {
         switch (event.target.name) {
@@ -112,9 +115,19 @@ export const TaxList = ({ className }: TaxListProps) => {
 
     const TableRowArray = ({ receipts }: any) => {
         return receipts.map((receipt: any, index: number) => {
-            return (<TableRow receipt={receipt} refresh={FetchData} key={index} />)
+            return (<TableRow receipt={receipt} folder={Folder!} refresh={TableUpdate} key={index} />)
         })
     };
+
+
+    const uploadToClient = (event: any) => {
+        if (event.target.files && event.target.files[0]) {
+            const i = event.target.files[0];
+
+            setImage(i);
+            setCreateObjectURL(URL.createObjectURL(i));
+        }
+    }
 
 
     return (
@@ -163,6 +176,9 @@ export const TaxList = ({ className }: TaxListProps) => {
                 </form>
 
                 <button type="button" className="p-5" onClick={InsertReceipt}>Insert</button>
+                <button type="button" className="p-5 text-2xl" onClick={() => document.getElementById('image-upload')?.click() }>📸</button>
+
+                <input id='image-upload' type="file" accept="image/*" capture="environment" hidden />
             </div>
 
             <div className="flex flex-col justify-center gap-2 m-10">
